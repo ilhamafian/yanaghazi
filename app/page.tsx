@@ -1,103 +1,165 @@
-import Image from "next/image";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
 
-export default function Home() {
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Rsvp, rsvpSchema } from "@/schemas/rsvpSchema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { RadioGroup } from "@radix-ui/react-radio-group";
+import { RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
+export default function RsvpPage() {
+  const formMethods = useForm<Rsvp>({
+    resolver: zodResolver(rsvpSchema),
+    defaultValues: {
+      nama: "",
+      kehadiran: "hadir",
+      jumlah_kehadiran: "1",
+      ucapan: "",
+    },
+  });
+
+  const registerRSVP = async (data: any) => {
+    console.log("In data: ", data);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div>
+      <Card className="m-4">
+        <CardHeader>
+          <CardTitle className="text-center text-3xl font-serif">
+            R S V P
+          </CardTitle>
+          <CardDescription className="text-center font-serif">
+            Jemput datang ke majlis kami
+          </CardDescription>
+        </CardHeader>
+        <Form formMethods={formMethods} onSubmit={registerRSVP}>
+          <CardContent>
+            <div className="grid w-full items-center gap-4">
+              <FormField
+                name="nama"
+                render={({ field }) => (
+                  <div className="flex flex-col space-y-1.5">
+                    <FormLabel className="font-serif">Nama</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="font-serif"
+                        placeholder="Nama"
+                      />
+                    </FormControl>
+                  </div>
+                )}
+              />
+              <FormField
+                name="kehadiran"
+                render={({ field }) => (
+                  <div className="flex flex-col space-y-1.5">
+                    <FormLabel className="font-serif">Kehadiran</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-1">
+                          <FormControl>
+                            <RadioGroupItem value="hadir" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Hadir</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-1">
+                          <FormControl>
+                            <RadioGroupItem value="tidakHadir" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Tidak Hadir
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
+                )}
+              />
+              <FormField
+                name="jumlah_kehadiran"
+                render={({ field }) => (
+                  <div className="flex flex-col space-y-1.5">
+                    <FormItem>
+                      <FormLabel className="font-serif">
+                        Jumlah Kehadiran
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-[100px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="1">1</SelectItem>
+                          <SelectItem value="2">2</SelectItem>
+                          <SelectItem value="3">3</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  </div>
+                )}
+              />
+              <FormField
+                name="ucapan"
+                render={({ field }) => (
+                  <div className="flex flex-col space-y-1.5">
+                    <FormItem>
+                      <FormLabel className="font-serif">Ucapan anda</FormLabel>
+                      <Textarea
+                        className="font-serif"
+                        placeholder="Tuliskan ucapan anda di sini."
+                        {...field}
+                      />
+                      <p className="text-sm text-muted-foreground font-serif">
+                        Ucapan anda akan dipaparkan kepada semua.
+                      </p>
+                    </FormItem>
+                  </div>
+                )}
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-end mt-4">
+            <Button type="submit" className="font-serif">
+              Hantar
+            </Button>
+          </CardFooter>
+        </Form>
+      </Card>
     </div>
   );
 }
