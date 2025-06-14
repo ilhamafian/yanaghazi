@@ -45,7 +45,13 @@ export default function RsvpPage() {
   });
 
   const registerRSVP = async (data: any) => {
-    console.log("In data: ", data);
+    // Get the last segment of the URL as quota
+    const quota = window.location.pathname.split("/").pop() || "";
+
+    // Append quota to data
+    const updatedData = { ...data, quota };
+
+    console.log("In data: ", updatedData);
   };
 
   return (
