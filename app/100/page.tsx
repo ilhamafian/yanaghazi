@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Rsvp, rsvpSchema } from "@/schemas/rsvpSchema";
+import { Rsvp, rsvpFrontendSchema } from "@/schemas/rsvpSchema";
 import {
   Form,
   FormControl,
@@ -35,7 +35,7 @@ import { Button } from "@/components/ui/button";
 
 export default function RsvpPage() {
   const formMethods = useForm<Rsvp>({
-    resolver: zodResolver(rsvpSchema),
+    resolver: zodResolver(rsvpFrontendSchema),
     defaultValues: {
       nama: "",
       kehadiran: "hadir",
