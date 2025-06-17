@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function RsvpPage() {
   const formMethods = useForm<Rsvp>({
@@ -51,7 +52,23 @@ export default function RsvpPage() {
     // Append quota to data
     const updatedData = { ...data, quota };
 
-    console.log("In data: ", updatedData);
+    try {
+      const response = await fetch("/api/rsvp/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (response.ok) {
+        toast("Terima kasih kerana hadiri!", {
+          description: "Sunday, December 03, 2023 at 9:00 AM",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to create RSVP: ", error);
+    }
   };
 
   return (

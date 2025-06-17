@@ -32,6 +32,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function RsvpPage() {
   const formMethods = useForm<Rsvp>({
@@ -40,6 +42,7 @@ export default function RsvpPage() {
       nama: "",
       kehadiran: "hadir",
       jumlah_kehadiran: "1",
+      telefon: "",
       ucapan: "",
     },
   });
@@ -51,11 +54,43 @@ export default function RsvpPage() {
     // Append quota to data
     const updatedData = { ...data, quota };
 
-    console.log("In data: ", updatedData);
+    try {
+      const response = await fetch("/api/rsvp/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (response.ok) {
+        toast("Terima kasih kerana hadiri!", {
+          description: "Sunday, December 03, 2023 at 9:00 AM",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to create RSVP: ", error);
+    }
   };
+
+  useEffect(() => {
+    const video = document.getElementById("welcome-video") as HTMLVideoElement;
+    if (video) {
+      video.play().catch((err) => console.error("Video playback failed:", err));
+    }
+  }, []);
 
   return (
     <div>
+      <div>
+        <video
+          id="welcome-video"
+          src="/video/welcome.mp4"
+          autoPlay
+          playsInline
+          className="w-full h-auto object-cover"
+        />
+      </div>
       <Card className="m-4">
         <CardHeader>
           <CardTitle className="text-center text-3xl font-serif">
@@ -136,6 +171,21 @@ export default function RsvpPage() {
                         </SelectContent>
                       </Select>
                     </FormItem>
+                  </div>
+                )}
+              />
+              <FormField
+                name="telefon"
+                render={({ field }) => (
+                  <div className="flex flex-col space-y-1.5">
+                    <FormLabel className="font-serif">No. Telefon</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="font-serif"
+                        placeholder="Telefon"
+                      />
+                    </FormControl>
                   </div>
                 )}
               />
