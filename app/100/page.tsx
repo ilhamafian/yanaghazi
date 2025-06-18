@@ -216,6 +216,54 @@ export default function RsvpPage() {
           </CardFooter>
         </Form>
       </Card>
+
+      <Card className="m-4">
+        <CardHeader>
+          <CardTitle className="text-center text-3xl font-serif">
+            Lokasi & Masa
+          </CardTitle>
+          <CardDescription className="text-center font-serif">
+            <p>Sabtu, 16 August 2025</p>
+            <p>11:00 Pagi - 4:00 Petang</p>
+            <p>Magica Tropicana Aman Hall,</p>
+            <p>Teluk Panglima Garang</p>
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {/* Google Maps Embed */}
+          <div className="flex justify-center">
+            <div className="rounded overflow-hidden shadow-md w-full max-w-2xl">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.5498163150187!2d101.52977457528272!3d2.9447777970314677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cdb1952bb7cabf%3A0x3e239ad7c22486b!2sMagica%20Tropicana%20Aman%20Hall%20(1484663-A)!5e0!3m2!1sen!2smy!4v1750262753987!5m2!1sen!2smy"
+                width="100%"
+                height="200"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-center gap-4 mt-4">
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=Magica+Tropicana+Aman+Hall"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="default">Buka di Google Maps</Button>
+            </a>
+            <a
+              href="https://www.waze.com/en/live-map/directions/my/selangor/telok-panglima-garang/magica-tropicana-aman-hall-(1484663-a)?navigate=yes&place=ChIJv8q3K5WxzTERa0gifK054gM"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="outline">Buka di Waze</Button>
+            </a>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
