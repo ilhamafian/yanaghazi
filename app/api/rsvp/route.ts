@@ -20,10 +20,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log("In validationResult.data: ", validationResult.data);
+    // Add the current date
+    const rsvpDataWithDate = {
+      ...validationResult.data,
+      date: new Date(),
+    };
+
+    console.log("Final RSVP data to insert:", rsvpDataWithDate);
 
     const rsvpModel = new RSVPModel();
-    await rsvpModel.insertRSVP(validationResult.data);
+    await rsvpModel.insertRSVP(rsvpDataWithDate);
 
     return createResponse({ message: "RSVP created successfully" }, 200);
   } catch (error) {

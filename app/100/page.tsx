@@ -39,6 +39,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { CalendarCheck2, MapPin, Car, MessageCircle } from "lucide-react";
 
 export default function RsvpPage() {
   const formMethods = useForm<Rsvp>({
@@ -60,7 +61,7 @@ export default function RsvpPage() {
     const updatedData = { ...data, quota };
 
     try {
-      const response = await fetch("/api/rsvp/", {
+      const response = await fetch("/api/rsvp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -137,10 +138,10 @@ export default function RsvpPage() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-center mb-4 text-pink-700">
             Yana <span className="text-pink-400">&amp;</span> Ghazi
           </h2>
-          <div className="text-center text-base sm:text-lg md:text-xl font-sans text-gray-700 mb-1">
+          <div className="text-center text-base sm:text-lg md:text-xl font-serif text-gray-700 mb-1 ">
             Sabtu, 16 August &bull; 11:00 AM
           </div>
-          <div className="text-center text-base sm:text-base md:text-lg font-sans text-gray-600">
+          <div className="text-center text-base sm:text-base md:text-lg font-serif text-gray-600">
             Magica Tropicana Aman Hall,
             <br />
             Teluk Panglima Garang
@@ -308,23 +309,40 @@ export default function RsvpPage() {
                       referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
                   </div>
-                  <p>Lokasi dewan majlis: </p>
-                  <p>Magica Tropican Aman Hall,</p>
-                  <p>Teluk Panglima Garang</p>
+                  <p>Lokasi Dewan Majlis: </p>
+                  <div className="leading-tight">
+                    <p className="mb-0">Magica Tropicana Aman Hall,</p>
+                    <p className="mb-0">
+                      Persiaran Tropicana Aman 1, Bandar Tropicana Aman,
+                    </p>
+                    <p>42500, Teluk Panglima Garang, Selangor</p>
+                  </div>
                   <div className="flex justify-end gap-3 mt-4">
                     <a
                       href="https://www.google.com/maps/dir/?api=1&destination=Magica+Tropicana+Aman+Hall"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Button variant="default">Buka di Google Maps</Button>
+                      <Button
+                        variant="default"
+                        className="flex items-center gap-2"
+                      >
+                        <MapPin className="w-5 h-5" />
+                        Buka di Google Maps
+                      </Button>
                     </a>
                     <a
                       href="https://www.waze.com/en/live-map/directions/my/selangor/telok-panglima-garang/magica-tropicana-aman-hall-(1484663-a)?navigate=yes&place=ChIJv8q3K5WxzTERa0gifK054gM"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Button variant="outline">Buka di Waze</Button>
+                      <Button
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <Car className="w-5 h-5" />
+                        Buka di Waze
+                      </Button>
                     </a>
                   </div>
                 </AccordionContent>
@@ -334,13 +352,26 @@ export default function RsvpPage() {
                   Simpan Tarikh dan Masa ke Google Calendar
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">
-                  <div className="flex justify-center gap-4 mt-4">
+                  <p>Tarikh dan Masa: </p>
+                  <div className="leading-tight">
+                    <p className="mb-0">Sabtu, 16 August 2025,</p>
+                    <p className="mb-0">
+                      dari jam 11:00 pagi hingga 4:00 petang.
+                    </p>
+                  </div>
+                  <div className="flex justify-end gap-4 mt-4">
                     <a
                       href="https://www.google.com/calendar/render?action=TEMPLATE&text=Majlis+Perkahwinan+Yana+%26+Ghazi&dates=20250816T030000Z/20250816T080000Z&details=Majlis+di+Magica+Tropicana+Aman+Hall%2C+Teluk+Panglima+Garang&location=Magica+Tropicana+Aman+Hall%2C+Teluk+Panglima+Garang"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Button variant="default">Add to Google Calendar</Button>
+                      <Button
+                        variant="default"
+                        className="flex items-center gap-2"
+                      >
+                        <CalendarCheck2 className="w-5 h-5" />
+                        Tambah ke Google Calendar
+                      </Button>
                     </a>
                   </div>
                 </AccordionContent>
@@ -348,16 +379,43 @@ export default function RsvpPage() {
               <AccordionItem value="item-3">
                 <AccordionTrigger>Ada Soalan? Hubungi kami.</AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">
-                  <p>
-                    We stand behind our products with a comprehensive 30-day
-                    return policy. If you&apos;re not completely satisfied,
-                    simply return the item in its original condition.
-                  </p>
-                  <p>
-                    Our hassle-free return process includes free return shipping
-                    and full refunds processed within 48 hours of receiving the
-                    returned item.
-                  </p>
+                  <p>Nama & No. Telefon: </p>
+                  <div className="leading-tight">
+                    <p className="mb-0">
+                      Pn. Siti Zaleha: 019-201 6673 (Ibu Bakal Pengantin)
+                    </p>
+                    <p className="mb-0">
+                      En. Mohd. Nazir: 010-4022 808 (Bapa Bakal Pengantin)
+                    </p>
+                  </div>
+                  <div className="flex justify-end gap-3 mt-4">
+                    <a
+                      href="https://wa.me/60192016673"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        variant="default"
+                        className="flex items-center gap-2"
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                        Pn. Siti Zaleha
+                      </Button>
+                    </a>
+                    <a
+                      href="https://wa.me/60104022808"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                        En. Mohd Nordin
+                      </Button>
+                    </a>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
