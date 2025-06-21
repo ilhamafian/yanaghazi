@@ -40,8 +40,27 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { CalendarCheck2, MapPin, Car, MessageCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function RsvpPage() {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      // fallback in case video load event fails
+      setVideoLoaded(true);
+    }, 5000); // 5s max wait
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   const formMethods = useForm<Rsvp>({
     resolver: zodResolver(rsvpFrontendSchema),
     defaultValues: {
@@ -81,6 +100,24 @@ export default function RsvpPage() {
 
   return (
     <>
+      {/* LOADING SCREEN */}
+      {!videoLoaded && (
+        <div className="fixed inset-0 z-50 bg-white flex items-center justify-center">
+          <div className="text-center animate-pulse">
+            <p className="text-lg font-serif text-gray-600 mb-2">
+              Aplikasi dibina khas dari
+            </p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-center mb-4 text-pink-700">
+              Yana <span className="text-pink-400">&amp;</span> Ghazi
+            </h2>
+            <div
+              className="w-12 h-12 border-4 border-pink-300 border-t-transparent rounded-full animate-spin mx-auto"
+              style={{ animationDuration: "2s" }} // default is 1s
+            />
+          </div>
+        </div>
+      )}
+
       {/* Fullscreen Welcome Video */}
       <section className="w-screen h-screen fixed top-0 left-0 z-40">
         <video
@@ -283,7 +320,7 @@ export default function RsvpPage() {
             </CardTitle>
             <CardDescription className="text-left font-serif">
               Di sini kami sediakan kemudahan untuk anda sambungkan butiran
-              majlis ke applikasi telefon anda.
+              majlis ke aplikasi peranti anda.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -294,7 +331,7 @@ export default function RsvpPage() {
               defaultValue="item-1"
             >
               <AccordionItem value="item-1">
-                <AccordionTrigger>
+                <AccordionTrigger className="font-serif">
                   Lokasi Majlis Melalui Waze atau Google Maps
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">
@@ -348,13 +385,16 @@ export default function RsvpPage() {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger>
+                <AccordionTrigger className="font-serif">
                   Simpan Tarikh dan Masa ke Google Calendar
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">
                   <p>Tarikh dan Masa: </p>
                   <div className="leading-tight">
                     <p className="mb-0">Sabtu, 16 August 2025,</p>
+                    <p className="mb-0">
+                      Bersamaan dengan 22 Safar 1447 Hijrah
+                    </p>
                     <p className="mb-0">
                       dari jam 11:00 pagi hingga 4:00 petang.
                     </p>
@@ -377,7 +417,9 @@ export default function RsvpPage() {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger>Ada Soalan? Hubungi kami.</AccordionTrigger>
+                <AccordionTrigger className="font-serif">
+                  Ada Soalan? Hubungi kami.
+                </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">
                   <p>Nama & No. Telefon: </p>
                   <div className="leading-tight">
@@ -419,49 +461,45 @@ export default function RsvpPage() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            {/* 
-            <div className="flex justify-center">
-              <div className="rounded overflow-hidden shadow-md w-full max-w-2xl">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.5498163150187!2d101.52977457528272!3d2.9447777970314677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cdb1952bb7cabf%3A0x3e239ad7c22486b!2sMagica%20Tropicana%20Aman%20Hall%20(1484663-A)!5e0!3m2!1sen!2smy!4v1750262753987!5m2!1sen!2smy"
-                  width="100%"
-                  height="200"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
-            </div>
+          </CardContent>
+        </Card>
 
-            <div className="flex justify-center gap-4 mt-4">
-              <a
-                href="https://www.google.com/maps/dir/?api=1&destination=Magica+Tropicana+Aman+Hall"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="default">Buka di Google Maps</Button>
-              </a>
-              <a
-                href="https://www.waze.com/en/live-map/directions/my/selangor/telok-panglima-garang/magica-tropicana-aman-hall-(1484663-a)?navigate=yes&place=ChIJv8q3K5WxzTERa0gifK054gM"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="outline">Buka di Waze</Button>
-              </a>
-            </div>
-
-            <div className="flex justify-center gap-4 mt-4">
-              <a
-                href="https://www.google.com/calendar/render?action=TEMPLATE&text=Majlis+Perkahwinan+Yana+%26+Ghazi&dates=20250816T030000Z/20250816T080000Z&details=Majlis+di+Magica+Tropicana+Aman+Hall%2C+Teluk+Panglima+Garang&location=Magica+Tropicana+Aman+Hall%2C+Teluk+Panglima+Garang"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="default">Add to Google Calendar</Button>
-              </a>
-            </div>
-
-            */}
+        <Card className="m-4">
+          <CardHeader>
+            <CardTitle className="text-left text-3xl font-serif">
+              Ucapan Anda
+            </CardTitle>
+            <CardDescription className="text-left font-serif">
+              Terima kasih kerana menghadiri majlis kami. Di sini kami paparkan
+              ucapan-ucapan anda. Jumpa nanti!
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex aspect-video items-center justify-center p-6">
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              orientation="vertical"
+              className="w-full max-w-xsv"
+            >
+              <CarouselContent className="-mt-1 h-[200px]">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <CarouselItem key={index} className="pt-1 md:basis-1/2">
+                    <div className="p-1">
+                      <Card>
+                        <CardContent className="flex items-center justify-center p-6">
+                          <span className="text-3xl font-semibold">
+                            {index + 1}
+                          </span>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </CardContent>
         </Card>
       </div>
