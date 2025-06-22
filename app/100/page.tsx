@@ -51,6 +51,9 @@ import {
 
 export default function RsvpPage() {
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [ucapanList, setUcapanList] = useState<
+    Array<{ ucapan: string; nama: string; dates: string }>
+  >([]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -59,6 +62,10 @@ export default function RsvpPage() {
     }, 5000); // 5s max wait
 
     return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    fetchUcapan();
   }, []);
 
   const formMethods = useForm<Rsvp>({
@@ -71,6 +78,17 @@ export default function RsvpPage() {
       ucapan: "",
     },
   });
+
+  const fetchUcapan = async () => {
+    try {
+      const response = await fetch("/api/rsvp");
+      if (!response.ok) throw new Error("Failed to fetch ucapan");
+      const data = await response.json();
+      setUcapanList(data);
+    } catch (error) {
+      console.error("Error fetching ucapan:", error);
+    }
+  };
 
   const registerRSVP = async (data: any) => {
     // Get the last segment of the URL as quota
@@ -92,6 +110,8 @@ export default function RsvpPage() {
         toast("Terima kasih kerana hadiri!", {
           description: "Sunday, December 03, 2023 at 9:00 AM",
         });
+
+        fetchUcapan();
       }
     } catch (error) {
       console.error("Failed to create RSVP: ", error);
@@ -365,7 +385,7 @@ export default function RsvpPage() {
                         className="flex items-center gap-2"
                       >
                         <MapPin className="w-5 h-5" />
-                        Buka di Google Maps
+                        Buka di Maps
                       </Button>
                     </a>
                     <a
@@ -423,12 +443,8 @@ export default function RsvpPage() {
                 <AccordionContent className="flex flex-col gap-4 text-balance">
                   <p>Nama & No. Telefon: </p>
                   <div className="leading-tight">
-                    <p className="mb-0">
-                      Pn. Siti Zaleha: 019-201 6673 (Ibu Bakal Pengantin)
-                    </p>
-                    <p className="mb-0">
-                      En. Mohd. Nazir: 010-4022 808 (Bapa Bakal Pengantin)
-                    </p>
+                    <p className="mb-0">Pn. Zaleha: 019-201 6673</p>
+                    <p className="mb-0">En. Mohd Nazri: 010-4022 808</p>
                   </div>
                   <div className="flex justify-end gap-3 mt-4">
                     <a
@@ -441,7 +457,7 @@ export default function RsvpPage() {
                         className="flex items-center gap-2"
                       >
                         <MessageCircle className="w-5 h-5" />
-                        Pn. Siti Zaleha
+                        Pn. Zaleha
                       </Button>
                     </a>
                     <a
@@ -454,7 +470,7 @@ export default function RsvpPage() {
                         className="flex items-center gap-2"
                       >
                         <MessageCircle className="w-5 h-5" />
-                        En. Mohd Nordin
+                        En. Mohd Nazri
                       </Button>
                     </a>
                   </div>
@@ -483,14 +499,17 @@ export default function RsvpPage() {
               className="w-full max-w-xsv"
             >
               <CarouselContent className="-mt-1 h-[200px]">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem key={index} className="pt-1 md:basis-1/2">
+                {ucapanList.slice().map((item, idx) => (
+                  <CarouselItem key={idx} className="pt-1 md:basis-1/2">
                     <div className="p-1">
                       <Card>
-                        <CardContent className="flex items-center justify-center p-6">
-                          <span className="text-3xl font-semibold">
-                            {index + 1}
-                          </span>
+                        <CardContent className="flex flex-col items-center justify-center p-6">
+                          <p className="text-xl font-serif text-center mb-2">
+                            "{item.ucapan}"
+                          </p>
+                          <p className="text-lg font-serif text-center">
+                            ~ {item.nama}
+                          </p>
                         </CardContent>
                       </Card>
                     </div>

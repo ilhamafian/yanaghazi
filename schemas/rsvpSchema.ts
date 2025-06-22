@@ -15,6 +15,7 @@ export const rsvpFrontendSchema = rsvpBaseSchema;
 // Backend schema extends the base with `quota`
 export const rsvpBackendSchema = rsvpBaseSchema.extend({
   quota: z.string(),
+  date: z.date(),
 });
 
 export type backendRsvp = z.infer<typeof rsvpBackendSchema>;

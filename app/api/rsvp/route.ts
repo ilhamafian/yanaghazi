@@ -4,14 +4,33 @@ import { createResponse, handleError } from "@/utils/apiHelper";
 import { sanitizeObject } from "@/utils/sanitize";
 import { NextRequest } from "next/server";
 
+const rsvpModel = new RSVPModel();
+
+export async function GET(request: NextRequest) {
+  try {
+    const ucapan = await rsvpModel.getLatestUcapan();
+
+    return createResponse(ucapan);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const sanitizedData = sanitizeObject(body);
 
-    console.log("In sanitizedData: ", sanitizedData);
+    // Add the current date
+    const rsvpDataWithDate = {
+      ...sanitizedData,
+      date: new Date(),
+    };
 
-    const validationResult = rsvpBackendSchema.safeParse(sanitizedData);
+    console.log("Final RSVP data to insert:", rsvpDataWithDate);
+
+    const validationResult = rsvpBackendSchema.safeParse(rsvpDataWithDate);
+
     if (!validationResult.success) {
       console.error("Validation errors: ", validationResult.error.errors);
       return createResponse(
@@ -20,16 +39,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Add the current date
-    const rsvpDataWithDate = {
-      ...validationResult.data,
-      date: new Date(),
-    };
-
-    console.log("Final RSVP data to insert:", rsvpDataWithDate);
-
-    const rsvpModel = new RSVPModel();
-    await rsvpModel.insertRSVP(rsvpDataWithDate);
+    await rsvpModel.insertRSVP(validationResult.data);
 
     return createResponse({ message: "RSVP created successfully" }, 200);
   } catch (error) {

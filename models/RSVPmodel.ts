@@ -17,4 +17,17 @@ export class RSVPModel extends ModelBase<backendRsvp> {
   async insertRSVP(rsvp: backendRsvp): Promise<void> {
     await this.create(rsvp);
   }
+
+  async getLatestUcapan(): Promise<
+    Array<{ ucapan: string; nama: string; date: Date }>
+  > {
+    // Find all, sort by date descending, limit 10
+    const results = await this.find({}, { sort: { date: -1 }, limit: 10 });
+    // Map to only ucapan, nama, dates
+    return results.map((item: any) => ({
+      ucapan: item.ucapan,
+      nama: item.nama,
+      date: item.date,
+    }));
+  }
 }
