@@ -48,6 +48,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from "react";
 
 export default function RsvpPage() {
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -117,6 +119,10 @@ export default function RsvpPage() {
       console.error("Failed to create RSVP: ", error);
     }
   };
+
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
 
   return (
     <>
@@ -497,6 +503,9 @@ export default function RsvpPage() {
               }}
               orientation="vertical"
               className="w-full max-w-xsv"
+              plugins={[plugin.current]}
+              onMouseEnter={plugin.current.stop}
+              onMouseLeave={plugin.current.reset}
             >
               <CarouselContent className="-mt-1 h-[200px]">
                 {ucapanList.slice().map((item, idx) => (
@@ -504,10 +513,10 @@ export default function RsvpPage() {
                     <div className="p-1">
                       <Card>
                         <CardContent className="flex flex-col items-center justify-center p-6">
-                          <p className="text-xl font-serif text-center mb-2">
+                          <p className="text-lg font-serif text-center mb-2">
                             "{item.ucapan}"
                           </p>
-                          <p className="text-lg font-serif text-center">
+                          <p className="text-sm font-serif text-center">
                             ~ {item.nama}
                           </p>
                         </CardContent>
