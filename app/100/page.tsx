@@ -58,16 +58,13 @@ export default function RsvpPage() {
   >([]);
 
   useEffect(() => {
+    fetchUcapan();
     const timeout = setTimeout(() => {
       // fallback in case video load event fails
       setVideoLoaded(true);
     }, 5000); // 5s max wait
 
     return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
-    fetchUcapan();
   }, []);
 
   const formMethods = useForm<Rsvp>({
@@ -496,13 +493,13 @@ export default function RsvpPage() {
               ucapan-ucapan anda. Jumpa nanti!
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex aspect-video items-center justify-center p-6">
+          <CardContent className="flex aspect-video items-center justify-center p-6 w-full overflow-hidden">
             <Carousel
               opts={{
                 align: "start",
               }}
               orientation="vertical"
-              className="w-full max-w-xsv"
+              className="w-full max-w-xs" // <-- Change from max-w-xsv to max-w-xs or sm
               plugins={[plugin.current]}
               onMouseEnter={plugin.current.stop}
               onMouseLeave={plugin.current.reset}
@@ -511,7 +508,9 @@ export default function RsvpPage() {
                 {ucapanList.slice().map((item, idx) => (
                   <CarouselItem key={idx} className="pt-1 md:basis-1/2">
                     <div className="p-1">
-                      <Card>
+                      <Card className="w-full">
+                        {" "}
+                        {/* Force child card to fit */}
                         <CardContent className="flex flex-col items-center justify-center p-6">
                           <p className="text-lg font-serif text-center mb-2">
                             "{item.ucapan}"
