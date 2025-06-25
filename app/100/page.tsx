@@ -39,8 +39,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CalendarCheck2, MapPin, Car, MessageCircle } from "lucide-react";
-import { useState, useEffect } from "react";
+import {
+  CalendarCheck2,
+  MapPin,
+  Car,
+  MessageCircle,
+  VolumeOff,
+  Volume2,
+} from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -56,6 +63,8 @@ export default function RsvpPage() {
   const [ucapanList, setUcapanList] = useState<
     Array<{ ucapan: string; nama: string; dates: string }>
   >([]);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     fetchUcapan();
@@ -65,6 +74,36 @@ export default function RsvpPage() {
     }, 5000); // 5s max wait
 
     return () => clearTimeout(timeout);
+  }, []);
+
+  // Play audio on load and handle mute state
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.muted = isMuted;
+      // Try to play on mount (may require user interaction on some browsers)
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {}); // ignore autoplay errors
+      }
+    }
+  }, [isMuted]);
+
+  // Try to play audio on first user interaction if autoplay is blocked
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const tryPlay = () => {
+      audio.play().catch(() => {});
+      window.removeEventListener("click", tryPlay);
+      window.removeEventListener("touchstart", tryPlay);
+    };
+    window.addEventListener("click", tryPlay);
+    window.addEventListener("touchstart", tryPlay);
+    return () => {
+      window.removeEventListener("click", tryPlay);
+      window.removeEventListener("touchstart", tryPlay);
+    };
   }, []);
 
   const formMethods = useForm<Rsvp>({
@@ -123,6 +162,42 @@ export default function RsvpPage() {
 
   return (
     <>
+      {/* Audio Player and Floating Mute/Unmute Button */}
+      <audio
+        ref={audioRef}
+        src="/audio/intro-audio.mp3"
+        autoPlay
+        loop
+        style={{ display: "none" }}
+      />
+      <button
+        onClick={() => {
+          setIsMuted((m) => !m);
+        }}
+        style={{
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+          zIndex: 100,
+          background: "rgba(255,255,255,0.85)",
+          borderRadius: "50%",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+          width: 56,
+          height: 56,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          border: "none",
+          cursor: "pointer",
+        }}
+        aria-label={isMuted ? "Unmute music" : "Mute music"}
+      >
+        {isMuted ? (
+          <VolumeOff className="w-7 h-7 text-pink-600" />
+        ) : (
+          <Volume2 className="w-7 h-7 text-pink-600" />
+        )}
+      </button>
       {/* LOADING SCREEN */}
       {!videoLoaded && (
         <div className="fixed inset-0 z-50 bg-white flex items-center justify-center">
@@ -155,7 +230,7 @@ export default function RsvpPage() {
         />
         {/* Scroll Down Indicator */}
         <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center animate-bounce-slow">
-          <span className="text-gray-600 text-xl font-medium tracking-wide mb-2 drop-shadow-sm">
+          <span className="text-gray-600 text-xl font-medium tracking-wide mb-2 drop-shadow-sm font-serif italic">
             Skrol Bawah
           </span>
           <div className="rounded-full bg-white/80 shadow-lg flex items-center justify-center w-16 h-16">
