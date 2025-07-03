@@ -57,6 +57,13 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import React from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function RsvpPage() {
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -157,7 +164,7 @@ export default function RsvpPage() {
   };
 
   const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
+    Autoplay({ delay: 3000, stopOnInteraction: true })
   );
 
   return (
@@ -203,7 +210,7 @@ export default function RsvpPage() {
         <div className="fixed inset-0 z-50 bg-white flex items-center justify-center">
           <div className="text-center animate-pulse">
             <p className="text-lg font-serif text-gray-600 mb-2">
-              Aplikasi dibina khas dari
+              Aplikasi dibina khas oleh
             </p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-center mb-4 text-pink-700">
               Yana <span className="text-pink-400">&amp;</span> Ghazi
@@ -267,7 +274,7 @@ export default function RsvpPage() {
       {/* Main Content starts after video */}
       <div className="relative z-50 mt-[100vh] bg-white/60 backdrop-blur-md rounded-2xl">
         <section className="w-full flex flex-col items-center justify-center py-10 px-4 ">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-center mb-2 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl text-center mb-2 tracking-tight font-imperial">
             Majlis Perkahwinan
           </h1>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-center mb-4 text-pink-700">
@@ -523,34 +530,42 @@ export default function RsvpPage() {
                   <div className="leading-tight">
                     <p className="mb-0">Pn. Zaleha: 019-201 6673</p>
                     <p className="mb-0">En. Mohd Nazri: 010-4022 808</p>
+                    <p className="mb-0">Cik Nur Farhana: 019-279 2808</p>
                   </div>
                   <div className="flex justify-end gap-3 mt-4">
-                    <a
-                      href="https://wa.me/60192016673"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button
-                        variant="default"
-                        className="flex items-center gap-2"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                        Pn. Zaleha
-                      </Button>
-                    </a>
-                    <a
-                      href="https://wa.me/60104022808"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button
-                        variant="outline"
-                        className="flex items-center gap-2"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                        En. Mohd Nazri
-                      </Button>
-                    </a>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="default">
+                          <MessageCircle className="w-5 h-5" />
+                          Hubungi
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-35" align="start">
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              window.open("https://wa.me/60192016673", "_blank")
+                            }
+                          >
+                            Puan Zaleha
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              window.open("https://wa.me/60104022808", "_blank")
+                            }
+                          >
+                            Encik Mohd Nazri
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              window.open("https://wa.me/60192792808", "_blank")
+                            }
+                          >
+                            Cik Nur Farhana
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -604,6 +619,15 @@ export default function RsvpPage() {
             </Carousel>
           </CardContent>
         </Card>
+
+        <section className="m-4">
+          <footer className="w-full text-center py-6 font-serif text-gray-600 text-base">
+            Aplikasi ini dibina khas oleh{" "}
+            <span className="text-pink-700 font-semibold">
+              Yana &amp; Ghazi
+            </span>
+          </footer>
+        </section>
       </div>
     </>
   );
