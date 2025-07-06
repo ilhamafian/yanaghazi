@@ -271,7 +271,7 @@ export default function RsvpPage({ params }: PageProps) {
               Yana <span className="text-rose-950">&amp;</span> Ghazi
             </h2>
             <div
-              className="w-12 h-12 border-4 border-pink-300 border-t-transparent rounded-full animate-spin mx-auto"
+              className="w-12 h-12 border-4 border-rose-950 border-t-transparent rounded-full animate-spin mx-auto"
               style={{ animationDuration: "2s" }} // default is 1s
             />
           </div>
@@ -584,8 +584,8 @@ export default function RsvpPage({ params }: PageProps) {
                 <AccordionContent className="flex flex-col gap-4 text-balance">
                   <p>Nama & No. Telefon: </p>
                   <div className="leading-tight">
-                    <p className="mb-0">Pn. Zaleha: 019-201 6673</p>
                     <p className="mb-0">En. Mohd Nazri: 010-4022 808</p>
+                    <p className="mb-0">Pn. Zaleha: 019-201 6673</p>
                     <p className="mb-0">Cik Nur Farhana: 019-279 2808</p>
                   </div>
                   <div className="flex justify-end gap-3 mt-4">
@@ -600,17 +600,17 @@ export default function RsvpPage({ params }: PageProps) {
                         <DropdownMenuGroup>
                           <DropdownMenuItem
                             onClick={() =>
-                              window.open("https://wa.me/60192016673", "_blank")
-                            }
-                          >
-                            Puan Zaleha
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() =>
                               window.open("https://wa.me/60104022808", "_blank")
                             }
                           >
                             Encik Mohd Nazri
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              window.open("https://wa.me/60192016673", "_blank")
+                            }
+                          >
+                            Puan Zaleha
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() =>
@@ -694,7 +694,7 @@ export default function RsvpPage({ params }: PageProps) {
                         {" "}
                         {/* Force child card to fit */}
                         <CardContent className="flex flex-col items-center justify-center p-6">
-                          <p className="text-lg font-serif text-center mb-2">
+                          <p className="text-lg font-serif italic text-center mb-2">
                             "{item.ucapan}"
                           </p>
                           <p className="text-sm font-serif text-center">
