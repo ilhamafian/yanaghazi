@@ -80,19 +80,18 @@ export default function RsvpPage({ params }: PageProps) {
     Array<{ ucapan: string; nama: string; dates: string }>
   >([]);
   const [isMuted, setIsMuted] = useState(false);
+  const [audioStarted, setAudioStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     fetchUcapan();
     const timeout = setTimeout(() => {
-      // fallback in case video load event fails
       setVideoLoaded(true);
     }, 5000); // 5s max wait
 
     return () => clearTimeout(timeout);
   }, []);
 
-  // Play audio on load and handle mute state
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
@@ -100,25 +99,58 @@ export default function RsvpPage({ params }: PageProps) {
       // Try to play on mount (may require user interaction on some browsers)
       const playPromise = audio.play();
       if (playPromise !== undefined) {
-        playPromise.catch(() => {}); // ignore autoplay errors
+        playPromise.catch((error) => {
+          // This is expected - autoplay is blocked until user interaction
+          console.log("Autoplay blocked (this is normal):", error.message);
+        });
       }
     }
   }, [isMuted]);
 
-  // Try to play audio on first user interaction if autoplay is blocked
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
+    let hasAttemptedPlay = false;
+
     const tryPlay = () => {
-      audio.play().catch(() => {});
+      if (hasAttemptedPlay) return; // Prevent multiple attempts
+
+      console.log("User interaction detected, attempting to play audio...");
+
+      if (audio.paused) {
+        hasAttemptedPlay = true;
+
+        audio
+          .play()
+          .then(() => {
+            console.log(
+              "✅ Audio started playing successfully on user interaction"
+            );
+            setAudioStarted(true);
+          })
+          .catch((error) => {
+            console.log(
+              "❌ Failed to play audio on interaction:",
+              error.message
+            );
+            hasAttemptedPlay = false; // Reset flag to allow retry
+          });
+      }
+
       window.removeEventListener("click", tryPlay);
       window.removeEventListener("touchstart", tryPlay);
+      window.removeEventListener("keydown", tryPlay);
     };
+
     window.addEventListener("click", tryPlay);
     window.addEventListener("touchstart", tryPlay);
+    window.addEventListener("keydown", tryPlay);
+
     return () => {
       window.removeEventListener("click", tryPlay);
       window.removeEventListener("touchstart", tryPlay);
+      window.removeEventListener("keydown", tryPlay);
     };
   }, []);
 
@@ -148,7 +180,6 @@ export default function RsvpPage({ params }: PageProps) {
     // Use the id from the dynamic route params
     const quota = id;
 
-    // Append quota to data
     const updatedData = { ...data, quota };
 
     try {
@@ -221,11 +252,12 @@ export default function RsvpPage({ params }: PageProps) {
           cursor: "pointer",
         }}
         aria-label={isMuted ? "Unmute music" : "Mute music"}
+        title={isMuted ? "Click to unmute" : "Click to mute"}
       >
         {isMuted ? (
-          <VolumeOff className="w-7 h-7 text-pink-600" />
+          <VolumeOff className="w-7 h-7 text-rose-950" />
         ) : (
-          <Volume2 className="w-7 h-7 text-pink-600" />
+          <Volume2 className="w-7 h-7 text-rose-950" />
         )}
       </button>
       {/* LOADING SCREEN */}
@@ -233,7 +265,7 @@ export default function RsvpPage({ params }: PageProps) {
         <div className="fixed inset-0 z-50 bg-white flex items-center justify-center">
           <div className="text-center animate-pulse">
             <p className="text-lg font-serif text-gray-600 mb-2">
-              Aplikasi dibina khas oleh
+              Aplikasi ini dibina khas oleh
             </p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-limelight font-semibold text-center mb-4 text-rose-950">
               Yana <span className="text-rose-950">&amp;</span> Ghazi
@@ -520,7 +552,7 @@ export default function RsvpPage({ params }: PageProps) {
                 <AccordionContent className="flex flex-col gap-4 text-balance">
                   <p>Tarikh dan Masa: </p>
                   <div className="leading-tight">
-                    <p className="mb-0">Sabtu, 16 August 2025,</p>
+                    <p className="mb-0">Sabtu, 16 Ogos 2025,</p>
                     <p className="mb-0">
                       Bersamaan dengan 22 Safar 1447 Hijrah
                     </p>

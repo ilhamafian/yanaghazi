@@ -27,8 +27,6 @@ export async function POST(request: NextRequest) {
       date: new Date(),
     };
 
-    console.log("Final RSVP data to insert:", rsvpDataWithDate);
-
     const validationResult = rsvpBackendSchema.safeParse(rsvpDataWithDate);
 
     if (!validationResult.success) {

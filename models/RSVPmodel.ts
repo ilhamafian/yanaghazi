@@ -9,6 +9,10 @@ export class RSVPModel extends ModelBase<backendRsvp> {
     super();
   }
 
+  async getAllRSVP(): Promise<backendRsvp[]> {
+    return await this.find();
+  }
+
   async getQuotaRSVP(quota: string): Promise<backendRsvp | null> {
     const result = await this.find({ quota });
     return result && result.length > 0 ? result[0] : null;
