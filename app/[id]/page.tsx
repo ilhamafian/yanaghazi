@@ -329,8 +329,8 @@ export default function RsvpPage({ params }: PageProps) {
       </section>
       {/* Main Content starts after video */}
       <div className="relative z-50 mt-[100vh] bg-white/60 backdrop-blur-md rounded-2xl">
-        <section className="w-full flex flex-col items-center justify-center py-10 px-4 ">
-          <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-2 tracking-tight font-ballet font-[700]">
+        <section className="w-full flex flex-col items-center justify-center py-10 px-4">
+          <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-2 mt-4 tracking-tight font-ballet font-[700]">
             Majlis Perkahwinan
           </h1>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-limelight font-semibold text-center mb-4 text-rose-950">
