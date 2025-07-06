@@ -530,7 +530,7 @@ export default function RsvpPage({ params }: PageProps) {
                       </Button>
                     </a>
                     <a
-                      href="https://www.waze.com/en/live-map/directions/my/selangor/telok-panglima-garang/magica-tropicana-aman-hall-(1484663-a)?navigate=yes&place=ChIJv8q3K5WxzTERa0gifK054gM"
+                      href="waze://?q=Magica Tropicana Aman Hall&navigate=yes"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
