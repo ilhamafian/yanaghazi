@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -46,6 +47,7 @@ import {
   MessageCircle,
   VolumeOff,
   Volume2,
+  Copy,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -163,6 +165,20 @@ export default function RsvpPage() {
     }
   };
 
+  const copyAccountNumber = async () => {
+    try {
+      await navigator.clipboard.writeText("162059096885");
+      toast("Nombor akaun telah disalin!", {
+        description: "162059096885",
+      });
+    } catch (error) {
+      console.error("Failed to copy account number: ", error);
+      toast("Gagal menyalin nombor akaun", {
+        description: "Sila cuba lagi",
+      });
+    }
+  };
+
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
@@ -212,8 +228,8 @@ export default function RsvpPage() {
             <p className="text-lg font-serif text-gray-600 mb-2">
               Aplikasi dibina khas oleh
             </p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-center mb-4 text-pink-700">
-              Yana <span className="text-pink-400">&amp;</span> Ghazi
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-limelight font-semibold text-center mb-4 text-rose-950">
+              Yana <span className="text-rose-950">&amp;</span> Ghazi
             </h2>
             <div
               className="w-12 h-12 border-4 border-pink-300 border-t-transparent rounded-full animate-spin mx-auto"
@@ -237,12 +253,12 @@ export default function RsvpPage() {
         />
         {/* Scroll Down Indicator */}
         <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center animate-bounce-slow">
-          <span className="text-gray-600 text-xl font-medium tracking-wide mb-2 drop-shadow-sm font-serif italic">
+          <span className="text-gray-600 text-sm font-medium tracking-wide mb-1 drop-shadow-sm font-serif italic">
             Skrol Bawah
           </span>
-          <div className="rounded-full bg-white/80 shadow-lg flex items-center justify-center w-16 h-16">
+          <div className="rounded-full bg-white/80 shadow-lg flex items-center justify-center w-10 h-10">
             <svg
-              className="w-8 h-8 text-gray-600 drop-shadow-md scale-x-125"
+              className="w-5 h-5 text-gray-600 drop-shadow-md scale-x-125"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -256,6 +272,7 @@ export default function RsvpPage() {
             </svg>
           </div>
         </div>
+
         <style jsx global>{`
           @keyframes bounce-slow {
             0%,
@@ -274,14 +291,14 @@ export default function RsvpPage() {
       {/* Main Content starts after video */}
       <div className="relative z-50 mt-[100vh] bg-white/60 backdrop-blur-md rounded-2xl">
         <section className="w-full flex flex-col items-center justify-center py-10 px-4 ">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl text-center mb-2 tracking-tight font-imperial">
+          <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-2 tracking-tight font-ballet font-[700]">
             Majlis Perkahwinan
           </h1>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-center mb-4 text-pink-700">
-            Yana <span className="text-pink-400">&amp;</span> Ghazi
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-limelight font-semibold text-center mb-4 text-rose-950">
+            Yana <span className="text-rose-950">&amp;</span> Ghazi
           </h2>
           <div className="text-center text-base sm:text-lg md:text-xl font-serif text-gray-700 mb-1 ">
-            Sabtu, 16 August &bull; 11:00 AM
+            Sabtu, 16 Ogos &bull; 11:00AM - 04:00PM
           </div>
           <div className="text-center text-base sm:text-base md:text-lg font-serif text-gray-600">
             Magica Tropicana Aman Hall,
@@ -576,11 +593,47 @@ export default function RsvpPage() {
         <Card className="m-4">
           <CardHeader>
             <CardTitle className="text-left text-3xl font-serif">
+              e-Salam Kaut
+            </CardTitle>
+            <CardDescription className="text-left font-serif">
+              Imbaskan QR dengan menggunakan aplikasi perbankan anda.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex justify-center">
+              <Image
+                src="/photo/QRCode.jpg"
+                alt="E-Salam Kaut QR Code"
+                width={300}
+                height={300}
+                className="rounded-lg shadow-md"
+                priority
+              />
+            </div>
+            <div className="text-center mt-2">
+              <p>Maybank</p>
+              <p>162059096885</p>
+              <p>Nur Dayana Batrisya binti Mohd Nazri</p>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-end mt-4">
+            <Button
+              className="font-serif flex items-center gap-2"
+              onClick={copyAccountNumber}
+            >
+              <Copy className="w-4 h-4" />
+              Salin Akaun
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card className="m-4">
+          <CardHeader>
+            <CardTitle className="text-left text-3xl font-serif">
               Ucapan Anda
             </CardTitle>
             <CardDescription className="text-left font-serif">
-              Terima kasih kerana menghadiri majlis kami. Di sini kami paparkan
-              ucapan-ucapan anda. Jumpa nanti!
+              Di sini kami paparkan ucapan-ucapan anda. Jumpa nanti!
             </CardDescription>
           </CardHeader>
           <CardContent className="flex aspect-video items-center justify-center p-6 w-full overflow-hidden">
@@ -623,7 +676,7 @@ export default function RsvpPage() {
         <section className="m-4">
           <footer className="w-full text-center py-6 font-serif text-gray-600 text-base">
             Aplikasi ini dibina khas oleh{" "}
-            <span className="text-pink-700 font-semibold">
+            <span className="text-rose-950 font-limelight font-semibold">
               Yana &amp; Ghazi
             </span>
           </footer>
