@@ -643,13 +643,13 @@ export default function RsvpPage({ params }: PageProps) {
               <Image
                 src="/photo/QRCode.png"
                 alt="E-Salam Kaut QR Code"
-                width={300}
-                height={300}
+                width={250}
+                height={250}
                 className="rounded-lg shadow-md"
                 priority
               />
             </div>
-            <div className="text-center mt-2">
+            <div className="text-center mt-2 font-serif">
               <p>Maybank</p>
               <p>162059096885</p>
               <p>Nur Dayana Batrisya binti Mohd Nazri</p>
