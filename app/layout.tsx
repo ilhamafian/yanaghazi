@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "RSVP Yana & Ghazi",
-  description: "Ada di jemput ke majlis perkahwinan kami!",
+  description: "Anda di jemput ke majlis perkahwinan kami!",
 };
 
 export default function RootLayout({
