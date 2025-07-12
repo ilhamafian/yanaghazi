@@ -109,7 +109,7 @@ export default function RsvpPage({ params }: PageProps) {
           body: JSON.stringify(updatedData),
         });
         if (response.ok) {
-          toast("Terima kasih kerana hadiri!", {});
+          toast("Terima kasih kerana hadir!", {});
           fetchUcapan();
         }
       } catch (error) {
