@@ -109,9 +109,7 @@ export default function RsvpPage({ params }: PageProps) {
           body: JSON.stringify(updatedData),
         });
         if (response.ok) {
-          toast("Terima kasih kerana hadiri!", {
-            description: "Sunday, December 03, 2023 at 9:00 AM",
-          });
+          toast("Terima kasih kerana hadiri!", {});
           fetchUcapan();
         }
       } catch (error) {
