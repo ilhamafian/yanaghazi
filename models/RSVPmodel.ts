@@ -1,4 +1,8 @@
-import { backendRsvp, rsvpBackendSchema } from "@/schemas/rsvpSchema";
+import {
+  backendRsvp,
+  rsvpBackendSchema,
+  rsvpBackendReadSchema,
+} from "@/schemas/rsvpSchema";
 import { ModelBase } from "./ModelBase";
 
 export class RSVPModel extends ModelBase<backendRsvp> {
@@ -10,7 +14,20 @@ export class RSVPModel extends ModelBase<backendRsvp> {
   }
 
   async getAllRSVP(): Promise<backendRsvp[]> {
-    return await this.find();
+    // Use lenient schema for reading existing data
+    const collection = await this.getCollection();
+    const documents = await collection.find({}).toArray();
+
+    return documents.map((doc) => {
+      return rsvpBackendReadSchema.parse({
+        ...doc,
+        _id: doc._id.toString(), // Convert ObjectId to string
+      });
+    });
+  }
+
+  async deleteRSVP(id: string): Promise<void> {
+    await this.delete(id);
   }
 
   async getQuotaRSVP(quota: string): Promise<backendRsvp | null> {

@@ -13,6 +13,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup } from "@radix-ui/react-radio-group";
@@ -54,7 +55,7 @@ const RSVPForm: React.FC<RSVPFormProps> = ({ formMethods, onSubmit }) => {
             <FormField
               name="nama"
               render={({ field }) => (
-                <div className="flex flex-col space-y-1.5">
+                <FormItem className="flex flex-col space-y-1.5">
                   <FormLabel className="font-serif">Nama</FormLabel>
                   <FormControl>
                     <Input
@@ -63,69 +64,68 @@ const RSVPForm: React.FC<RSVPFormProps> = ({ formMethods, onSubmit }) => {
                       placeholder="Nama"
                     />
                   </FormControl>
-                </div>
+                  <FormMessage />
+                </FormItem>
               )}
             />
             <FormField
               name="kehadiran"
               render={({ field }) => (
-                <div className="flex flex-col space-y-1.5">
+                <FormItem className="flex flex-col space-y-1.5">
                   <FormLabel className="font-serif">Kehadiran</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <FormItem className="flex items-center space-x-3 space-y-1">
+                      <div className="flex items-center space-x-3 space-y-1">
                         <FormControl>
                           <RadioGroupItem value="hadir" />
                         </FormControl>
                         <FormLabel className="font-normal">Hadir</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-1">
+                      </div>
+                      <div className="flex items-center space-x-3 space-y-1">
                         <FormControl>
                           <RadioGroupItem value="tidakHadir" />
                         </FormControl>
                         <FormLabel className="font-normal">
                           Tidak Hadir
                         </FormLabel>
-                      </FormItem>
+                      </div>
                     </RadioGroup>
                   </FormControl>
-                </div>
+                  <FormMessage />
+                </FormItem>
               )}
             />
             <FormField
               name="jumlah_kehadiran"
               render={({ field }) => (
-                <div className="flex flex-col space-y-1.5">
-                  <FormItem>
-                    <FormLabel className="font-serif">
-                      Jumlah Kehadiran
-                    </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-[100px]">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="1">1</SelectItem>
-                        <SelectItem value="2">2</SelectItem>
-                        <SelectItem value="3">3</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                </div>
+                <FormItem className="flex flex-col space-y-1.5">
+                  <FormLabel className="font-serif">Jumlah Kehadiran</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-[100px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">1</SelectItem>
+                      <SelectItem value="2">2</SelectItem>
+                      <SelectItem value="3">3</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
               )}
             />
             <FormField
               name="telefon"
               render={({ field }) => (
-                <div className="flex flex-col space-y-1.5">
+                <FormItem className="flex flex-col space-y-1.5">
                   <FormLabel className="font-serif">No. Telefon</FormLabel>
                   <FormControl>
                     <Input
@@ -134,25 +134,24 @@ const RSVPForm: React.FC<RSVPFormProps> = ({ formMethods, onSubmit }) => {
                       placeholder="Telefon"
                     />
                   </FormControl>
-                </div>
+                  <FormMessage />
+                </FormItem>
               )}
             />
             <FormField
               name="ucapan"
               render={({ field }) => (
-                <div className="flex flex-col space-y-1.5">
-                  <FormItem>
-                    <FormLabel className="font-serif">Ucapan anda</FormLabel>
-                    <Textarea
-                      className="font-serif"
-                      placeholder="Tuliskan ucapan anda di sini."
-                      {...field}
-                    />
-                    <p className="text-sm text-muted-foreground font-serif">
-                      Ucapan anda akan dipaparkan kepada semua.
-                    </p>
-                  </FormItem>
-                </div>
+                <FormItem className="flex flex-col space-y-1.5">
+                  <FormLabel className="font-serif">Ucapan anda</FormLabel>
+                  <Textarea
+                    className="font-serif"
+                    placeholder="Tuliskan ucapan anda di sini."
+                    {...field}
+                  />
+                  <p className="text-sm text-muted-foreground font-serif">
+                    Ucapan anda akan dipaparkan kepada semua.
+                  </p>
+                </FormItem>
               )}
             />
           </div>

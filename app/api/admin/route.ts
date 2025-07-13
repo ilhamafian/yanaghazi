@@ -13,3 +13,23 @@ export async function GET(request: NextRequest) {
     return handleError(error);
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return new Response(JSON.stringify({ error: "ID is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    await rsvpModel.deleteRSVP(id);
+
+    return createResponse({ message: "RSVP deleted successfully" });
+  } catch (error) {
+    return handleError(error);
+  }
+}
