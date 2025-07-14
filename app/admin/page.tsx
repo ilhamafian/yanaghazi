@@ -3,17 +3,13 @@
 import { useEffect, useState } from "react";
 import { columns, RSVP } from "./columns";
 import { DataTable } from "./data-table";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { jumlahKehadiran } from "@/schemas/rsvpSchema";
+import QuotaTable from "@/components/QuotaTable";
 
 export default function AdminPage() {
   const [dataTable, setDataTable] = useState<RSVP[]>([]);
+  const [quotaTable, setQuotaTable] = useState<jumlahKehadiran>();
 
   const fetchRSVP = async () => {
     try {
@@ -21,7 +17,7 @@ export default function AdminPage() {
       if (!response.ok) throw new Error("Failed to fetch RSVP");
       const data = await response.json();
       console.log("Uncleaned data: ", data);
-      const cleanedData = data
+      const cleanedData = data.rsvp
         .filter(
           (item: { kehadiran: string }) => item.kehadiran !== "tidak hadir"
         )
@@ -39,6 +35,7 @@ export default function AdminPage() {
       console.log("Cleaned data: ", cleanedData);
 
       setDataTable(cleanedData);
+      setQuotaTable(data.quotaTotal);
     } catch (error) {
       console.error("Error fetching RSVP: ", error);
     }
@@ -50,16 +47,28 @@ export default function AdminPage() {
 
   return (
     <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Data RSVP</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div>
-            <DataTable columns={columns} data={dataTable} />
-          </div>
-        </CardContent>
-      </Card>
+      <div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Data RSVP</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div>
+              <DataTable columns={columns} data={dataTable} />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="mt-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Kehadiran Mengikut Quota</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {quotaTable && <QuotaTable data={quotaTable} />}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

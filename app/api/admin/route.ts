@@ -7,8 +7,9 @@ const rsvpModel = new RSVPModel();
 export async function GET(request: NextRequest) {
   try {
     const RSVP = await rsvpModel.getAllRSVP();
+    const quotaTotal = await rsvpModel.getQuotaTotal();
 
-    return createResponse(RSVP);
+    return createResponse({ rsvp: RSVP, quotaTotal: quotaTotal });
   } catch (error) {
     return handleError(error);
   }

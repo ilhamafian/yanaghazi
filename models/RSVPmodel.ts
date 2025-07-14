@@ -2,6 +2,7 @@ import {
   backendRsvp,
   rsvpBackendSchema,
   rsvpBackendReadSchema,
+  jumlahKehadiran,
 } from "@/schemas/rsvpSchema";
 import { ModelBase } from "./ModelBase";
 
@@ -33,6 +34,39 @@ export class RSVPModel extends ModelBase<backendRsvp> {
   async getQuotaRSVP(quota: string): Promise<backendRsvp | null> {
     const result = await this.find({ quota });
     return result && result.length > 0 ? result[0] : null;
+  }
+
+  async getQuotaTotal(): Promise<jumlahKehadiran | null> {
+    const collection = await this.getCollection();
+    // Only count those who are attending
+    const documents = await collection.find({ kehadiran: "hadir" }).toArray();
+
+    // Initialize counters
+    const quotaTotals: Record<string, number> = {
+      "100": 0,
+      "200": 0,
+      "300": 0,
+      "400": 0,
+    };
+    let total = 0;
+
+    for (const doc of documents) {
+      const quota = doc.quota;
+      const jumlah = parseInt(doc.jumlah_kehadiran, 10) || 0;
+      if (quotaTotals.hasOwnProperty(quota)) {
+        quotaTotals[quota] += jumlah;
+      }
+      total += jumlah;
+    }
+
+    // Return as jumlahKehadiran type (all as strings)
+    return {
+      kehadiran_100: quotaTotals["100"].toString(),
+      kehadiran_200: quotaTotals["200"].toString(),
+      kehadiran_300: quotaTotals["300"].toString(),
+      kehadiran_400: quotaTotals["400"].toString(),
+      jumlah_kehadiran: total.toString(),
+    };
   }
 
   async insertRSVP(rsvp: backendRsvp): Promise<void> {

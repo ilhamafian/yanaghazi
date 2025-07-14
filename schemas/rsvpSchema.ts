@@ -18,6 +18,14 @@ const rsvpReadSchema = z.object({
   ucapan: z.string().optional().default(""),
 });
 
+export const jumlahKehadiranSchema = z.object({
+  kehadiran_100: z.string(),
+  kehadiran_200: z.string(),
+  kehadiran_300: z.string(),
+  kehadiran_400: z.string(),
+  jumlah_kehadiran: z.string(),
+});
+
 // Frontend schema is just the base
 export const rsvpFrontendSchema = rsvpBaseSchema;
 
@@ -36,6 +44,7 @@ export const rsvpBackendReadSchema = rsvpReadSchema.extend({
 
 export type backendRsvp = z.infer<typeof rsvpBackendSchema>;
 export type backendRsvpRead = z.infer<typeof rsvpBackendReadSchema>;
+export type jumlahKehadiran = z.infer<typeof jumlahKehadiranSchema>;
 
 // Type inference still works as expected
 export type Rsvp = z.infer<typeof rsvpFrontendSchema>;
