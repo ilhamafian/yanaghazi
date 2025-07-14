@@ -13,6 +13,13 @@ interface UcapanCarouselProps {
   plugin: React.MutableRefObject<any>;
 }
 
+function decodeHtmlEntities(str: any) {
+  if (!str) return "";
+  const txt = document.createElement("textarea");
+  txt.innerHTML = str;
+  return txt.value;
+}
+
 const UcapanCarousel: React.FC<UcapanCarouselProps> = ({
   ucapanList,
   plugin,
@@ -32,7 +39,7 @@ const UcapanCarousel: React.FC<UcapanCarouselProps> = ({
             <Card className="w-full">
               <CardContent className="flex flex-col items-center justify-center p-6">
                 <p className="text-lg font-serif italic text-center mb-2">
-                  "{item.ucapan}"
+                  "{decodeHtmlEntities(item.ucapan)}"
                 </p>
                 <p className="text-sm font-serif text-center">~ {item.nama}</p>
               </CardContent>
